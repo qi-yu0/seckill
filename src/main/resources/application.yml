@@ -1,0 +1,98 @@
+spring:
+  #thymeleaf configuration
+  thymeleaf:
+    #disable caching
+    cache: false
+  #data source configuration
+  datasource:
+    driver-class-name: com.mysql.cj.jdbc.Driver
+    url: jdbc:mysql://localhost:3306/seckill?useUnicode=true&characterEncoding=UTF-8&serverTimezone=Asia/Shanghai
+    username: remote
+    password: Ymy@remote1234
+    hikari:
+      #connection pool name
+      pool-name: DateHikariCP
+      #Minimum thread count
+      minimum-idle: 5
+      idle-timeout: 1800000
+
+      maximum-pool-size: 10
+
+      auto-commit: true
+
+      max-lifetime: 180000
+
+      connection-timeout: 30000
+
+      connection-test-query: SELECT 1
+  data:
+    redis:
+      #server address
+      host: 192.168.57.130
+      #port number
+      port: 6379
+
+      database: 0
+      timeout: 10000ms
+      lettuce:
+        pool:
+          max-active: 8
+          max-wait: 10000ms
+          max-idle: 200
+          min-idle: 5
+
+  #static resources processing
+  web:
+    resources:
+      cache:
+        #enable the default static resource processing
+        add-mappings: true
+
+        cachecontrol:
+          #cache response time
+          max-age: 3600
+      chain:
+        #cache is enabled in the resource chain,This parameter is enabled by default
+        cache: true
+        #Enabling resource chain
+        enabled: true
+        compressed: true
+        html-application-cache: true
+
+        #static resource locatoin
+      static-locations: classpath:/static/
+      add-mappings: true
+
+  rabbitmq:
+    host: 192.168.57.130
+    username: guest
+    password: guest
+    virtual-host: /
+    port: 5672
+    listener:
+      simple:
+        concurrency: 10
+        max-concurrency: 10
+        prefetch: 1
+        auto-startup: true
+        default-requeue-rejected: true
+    template:
+      retry:
+        enabled: true
+        initial-interval: 1000
+        max-attempts: 3
+        max-interval: 10000
+        multiplier: 1.0
+
+
+mybatis-plus:
+  #Mapper.xml path
+  mapper-locations: classpath*:/mapper/*Mapper.xml
+  #Mybatis
+  type-aliases-package: com.arch.seckill.pojo
+
+
+
+logging:
+  level:
+    com.arch.seckill.mapper: debug
